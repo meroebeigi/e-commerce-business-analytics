@@ -6,7 +6,11 @@ How can an e-commerce marketplace grow merchandise value while improving custome
 
 This project turns public Olist transactions into a validated reporting model, business KPIs, customer analytics, operational priorities and an honestly evaluated prediction case. Its central principle is **Volume × Rate × Business Impact**: commercial scale and normalized issue rates must be considered together.
 
-![Executive dashboard design](powerbi/dashboard_preview/page_1.png)
+![Working Power BI report](powerbi/dashboard_preview/live_report.png)
+
+[Download the native Power BI report](powerbi/Olist%20E-Commerce%20Performance.pbix) · [Open the service dashboard](https://app.powerbi.com/groups/me/dashboards/9b87c2c7-445f-4fb3-a60b-412b38d58a43?experience=power-bi) · [Project status and artifact scope](docs/project_status.md)
+
+The working report has one commercial summary page. The four-page analytical design is a separate expansion plan. Service links require workspace access; scheduled refresh is not configured.
 
 ## Findings at a glance
 
@@ -42,9 +46,24 @@ python run_pipeline.py
 python -m unittest discover -s tests -v
 ```
 
-Put the eight public Olist CSV files in `data/raw/` first; see [data provenance and setup](data/README.md). This repository's existing `archive/` folder contains the source files: copy its CSV files into `data/raw/` before running the pipeline. Alternatively, download them from the original dataset source. New raw-data copies and large generated outputs are excluded by `.gitignore`. Run the pipeline to create the BI exports and SQLite database after cloning. `requirements-validated.txt` records the package versions used for this build.
+Put the eight public Olist CSV files in `data/raw/` first; see [data provenance and setup](data/README.md). This repository's existing `archive/` folder contains the source files: copy its CSV files into `data/raw/` before running the pipeline. Alternatively, download them from the original dataset source. New raw-data copies and large generated outputs are excluded by `.gitignore`. Run the pipeline to create the BI exports and SQLite database after cloning. `requirements-validated.txt` records the original September analysis environment.
 
-Individual stages: `python run_pipeline.py --stage quality`, then `business`, `models`, `report`. Model fitting may take a few minutes. Random seed is 42. No credentials or private service connection is needed. All source data is public; the optional geolocation dataset is not used.
+### Pipeline stages
+
+| Stage | Requires | Produces |
+|---|---|---|
+| `quality` | Eight source CSVs in `data/raw/` | Six core tables, two audit facts, source checksums and reconciliations |
+| `dashboard` | Quality outputs | Tracked `powerbi/dashboard_data.csv` for the implemented report |
+| `business` | Quality outputs | KPIs, customer tables, scorecards, SQLite checks, charts and four static design previews |
+| `models` | Quality and business outputs | Exploratory clustering, temporal model evaluation and diagnostics |
+| `report` | Business and model outputs | Regenerated `docs/executive_summary.md` |
+| `all` (default) | Eight inputs and all requirements | Runs the stages above in order |
+
+Run an individual stage with `python run_pipeline.py --stage <stage>`. For only the report data, run `quality` then `dashboard`; `python powerbi/build_dashboard_data.py` is an equivalent dashboard export. The full run updates the tracked summary CSV, charts/design previews, model-metrics JSON and executive summary; review those changes before committing. It does not author or refresh Power BI Service or replace the PBIX.
+
+Model fitting may take a few minutes. Random seed is 42. Local Python/SQLite analysis needs no service credentials. Opening the saved service dashboard requires Power BI sign-in and workspace access. The optional geolocation dataset is not used.
+
+`requirements.txt` specifies install ranges; `requirements-validated.txt` records the original analysis environment. Later review checks are recorded separately in [validation](docs/validation.md).
 
 ## What is delivered
 
@@ -52,15 +71,16 @@ Individual stages: `python run_pipeline.py --stage quality`, then `business`, `m
 notebooks/     Four executed analytical notebooks
 src/           Grain-safe model, features, KPIs, visualizations, ML and SQL verification
 sql/           Six executable SQLite analytical queries
-powerbi/       Relationship model, Power Query, DAX, theme and four dashboard designs
+powerbi/       Native one-page PBIX, summary CSV, screenshot and proposed four-page design
 output/        Generated BI tables, SQLite database, audits and analytical results
 images/        Business charts and model diagnostics
 docs/          Metric contract, executive summary, source notebook review and validation
-tests/         Regression tests for join expansion, chronology, keys and censoring
+tests/         Regression tests for model grains, populations, censoring and dashboard aggregation
+scripts/       Repository packaging, links, source-hash and snapshot validation
 data/          Provenance manifest, setup and ignored local input files
 ```
 
-Running the pipeline creates `FactOrders`, `FactOrderItems`, `DimCustomer`, `DimProduct`, `DimSeller` and `DimDate`; optional payment/review audit facts remain separate. All amounts reconcile before any commercial filters. Eighteen SQL/Python checks cover executive, monthly, customer, category, seller and retention results. See the [validation record](docs/validation.md). The original root notebook is retained for provenance; start with the four rebuilt notebooks above.
+Running the pipeline creates `FactOrders`, `FactOrderItems`, `DimCustomer`, `DimProduct`, `DimSeller` and `DimDate`; payment/review audit facts remain separate. All amounts reconcile before any commercial filters. Eighteen SQL/Python checks cover executive, monthly, customer, category, seller and retention results. The monthly SQL query intentionally uses active months; Python fills empty calendar months. The eighteen comparisons cover shared fields on matching rows, not every SQL output column; see [SQL scope](sql/README.md). See the [validation record](docs/validation.md). The root `Ecommence.ipynb` and `docs/original_notebook.ipynb` are unchanged legacy copies with superseded calculations; start with the four rebuilt notebooks above.
 
 ## Analytical choices that matter
 

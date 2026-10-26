@@ -13,6 +13,6 @@ Source: `meroebeigi/E-Commerce`, commit `41710981b96a59a5399d88c62339ede3c8207e4
 | Absolute local Windows paths | Not portable | Project-relative raw input folder and documented setup |
 | No key/foreign-key validation or reconciliations | Join failures can pass silently | Assertions, explicit merge validation, unmatched coverage and SQL reconciliation |
 
-Preserved analytical intent: monthly commercial trends, category contribution, unique-customer repeat behavior, cumulative contribution and business recommendations. Rewrote calculations and conclusions wherever the original approach was unsupported. The source notebook is retained under `docs/` for provenance, not presented as validated analysis.
+Preserved analytical intent: monthly commercial trends, category contribution, unique-customer repeat behavior, cumulative contribution and business recommendations. Rewrote calculations and conclusions wherever the original approach was unsupported. The source notebook is retained unchanged as `Ecommence.ipynb` at the root and `docs/original_notebook.ipynb` for provenance, not presented as validated analysis. Use the four notebooks under `notebooks/` for the rebuilt analysis and [project status](project_status.md) for the implemented Power BI scope.
 
 No confidential industry-project files were required or incorporated. The public project uses the general volume-versus-rate analytical principle from the supplied brief only.

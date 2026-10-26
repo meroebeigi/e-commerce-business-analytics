@@ -1,0 +1,77 @@
+{
+  "reviewed_at_utc": "2026-10-26T14:02:08.469011+00:00",
+  "scope": "Repository/package checks; historical notebook outputs inspected, not re-executed",
+  "checks": {
+    "python_sources_parsed": 14,
+    "notebooks": [
+      {
+        "notebook": "01_data_quality.ipynb",
+        "executed_code_cells": 6,
+        "stored_errors": 0
+      },
+      {
+        "notebook": "02_business_analytics.ipynb",
+        "executed_code_cells": 11,
+        "stored_errors": 0
+      },
+      {
+        "notebook": "03_customer_analytics.ipynb",
+        "executed_code_cells": 6,
+        "stored_errors": 0
+      },
+      {
+        "notebook": "04_data_science.ipynb",
+        "executed_code_cells": 7,
+        "stored_errors": 0
+      }
+    ],
+    "legacy_notebook_copies_identical": true,
+    "local_links_checked": 87,
+    "source_files_hash_verified": 8,
+    "dashboard_snapshot": {
+      "rows": 556,
+      "gmv_brl": "13221498.11",
+      "orders": 96478,
+      "units": 110197,
+      "acre_filter_matches": true
+    },
+    "pbix_package": {
+      "pages": 1,
+      "visuals": 5,
+      "visual_types": [
+        "cardVisual",
+        "clusteredBarChart",
+        "lineChart",
+        "slicer",
+        "textbox"
+      ],
+      "scope": "ZIP and report definitions; no new Desktop/DAX execution"
+    },
+    "historical_model_metric_arithmetic": "passed; model not refitted",
+    "regression_tests_passed": 10,
+    "generated_evidence": {
+      "reconciliation": "7 recorded rows passed",
+      "sql_reconciliation": "18 recorded rows passed",
+      "dashboard_rebuilt_from_orders": "all rows matched",
+      "working_input_hashes": "8 matched source content and recorded checksums"
+    },
+    "crlf_normalized_source_files": [
+      "archive/olist_customers_dataset.csv",
+      "archive/olist_orders_dataset.csv",
+      "archive/olist_order_items_dataset.csv",
+      "archive/olist_order_payments_dataset.csv",
+      "archive/olist_order_reviews_dataset.csv",
+      "archive/olist_products_dataset.csv",
+      "archive/olist_sellers_dataset.csv",
+      "archive/product_category_name_translation.csv",
+      "data/raw/olist_customers_dataset.csv",
+      "data/raw/olist_orders_dataset.csv",
+      "data/raw/olist_order_items_dataset.csv",
+      "data/raw/olist_order_payments_dataset.csv",
+      "data/raw/olist_order_reviews_dataset.csv",
+      "data/raw/olist_products_dataset.csv",
+      "data/raw/olist_sellers_dataset.csv",
+      "data/raw/product_category_name_translation.csv"
+    ]
+  }
+}

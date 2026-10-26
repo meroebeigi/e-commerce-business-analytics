@@ -1,3 +1,5 @@
+// Proposed six-table Desktop model loader; not used by the summary PBIX.
+// See powerbi/README.md for the implemented report and separate expansion workflow.
 // Save as a function query named LoadOlist. OutputFolder is a text parameter.
 (TableName as text) as table =>
 let

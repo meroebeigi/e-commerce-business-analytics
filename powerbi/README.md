@@ -1,66 +1,84 @@
-# Power BI implementation package
+# Power BI dashboard and implementation package
 
-This folder contains a native Power BI report exported from Power BI Service, its month/state data snapshot, and the original four-page design package. The original star-schema DAX remains proposed and has not been validated in Power BI Desktop.
+This project delivers a working one-page summary report and a separate proposed four-page analytical design. [Project status](../docs/project_status.md) defines the shared scope and validation boundaries.
 
-## Working Power BI dashboard
+## Open the working report
 
-A native one-page report is now available: [Download Olist E-Commerce Performance.pbix](Olist%20E-Commerce%20Performance.pbix).
+- [Download Olist E-Commerce Performance.pbix](Olist%20E-Commerce%20Performance.pbix) and open it in Power BI Desktop.
+- [Open the saved report](https://app.powerbi.com/groups/me/reports/2dce69d3-cc17-4a2b-8805-ce7d13ceb396?experience=power-bi).
+- [Open Olist E-Commerce Dashboard](https://app.powerbi.com/groups/me/dashboards/9b87c2c7-445f-4fb3-a60b-412b38d58a43?experience=power-bi), containing a live pin of the report page.
 
-- [Open Power BI dashboard](https://app.powerbi.com/groups/me/dashboards/9b87c2c7-445f-4fb3-a60b-412b38d58a43?experience=power-bi)
-- [Open interactive report](https://app.powerbi.com/groups/me/reports/2dce69d3-cc17-4a2b-8805-ce7d13ceb396?experience=power-bi)
+Service links require workspace access and Power BI sign-in. GitHub hosts the downloadable PBIX and public-data snapshot. No public Publish to web link or scheduled refresh was configured.
 
-Service links require an authorized Power BI account. The report was saved in My workspace and its page pinned live to **Olist E-Commerce Dashboard**. GitHub contains the downloadable report and its public-data snapshot; it does not host the Power BI service.
+![Working Power BI report](dashboard_preview/live_report.png)
 
-This implemented page contains GMV, delivered-order and unit cards, monthly merchandise GMV, customer-state GMV ranking and an interactive state dropdown. The four-page specification below remains a separate future expansion. Delivery/review fields are available in the summary dataset but are not visualized on this page.
+The implemented page contains three commercial cards (GMV, orders, units), monthly merchandise GMV, state GMV ranking and a state dropdown. It uses a single imported `dashboard_data` table with implicit sums. The original DAX, relationship diagram, theme and four-page specification are separate design assets; they are not the implementation inside this PBIX.
 
-### Source, reproduction and verification
+## Rebuild and refresh the summary
 
-`dashboard_data.csv` has 556 month/state rows, built from commercial-eligible FactOrders. Run `python run_pipeline.py --stage quality`, then `python powerbi/build_dashboard_data.py`. It is sourced from public Olist transactions already present in archive/. The report uses an anonymous CSV connection to this repository's raw dashboard_data.csv URL. No scheduled refresh was configured: regenerate and commit the CSV, then refresh the Power BI model when data changes.
+Set up the eight inputs as described in [data setup](../data/README.md), then run from the repository root:
 
-All eight numeric columns are additive sums. GMV is delivered merchandise value, excluding freight; Orders is the number of eligible delivered orders; Units counts item rows. Returning_orders counts subsequent orders, not unique repeat customers. Delivery/review counts are restricted to this commercial population; they need not match separately defined marketplace-wide experience populations. Calculate rates as ratios of summed eligible counts, never averages of row rates. Unique customer counts cannot be reconstructed from this aggregate.
+```bash
+python -m pip install -r requirements.txt
+python run_pipeline.py --stage quality
+python run_pipeline.py --stage dashboard
+python -m unittest discover -s tests -v
+python scripts/validate_repository.py
+```
 
-Validated total: **BRL 13,221,498.11**, **96,478 orders**, **110,197 units**. State filter AC (Acre): **BRL 15,930.97**, **80 orders**, **91 units**; Power BI cards matched the CSV. All six existing model tests passed. The downloaded PBIX was checked as a valid ZIP containing DataModel and five visual definitions. The business stage generated analytical tables and SQL checks but chart rendering stopped because matplotlib was absent; the dashboard export and existing tests completed independently.
+`python powerbi/build_dashboard_data.py` is an equivalent dashboard-only command after quality. The full pipeline also exports the snapshot. Its calculation lives in [src/dashboard.py](../src/dashboard.py); importing the wrapper does not rewrite the CSV. The export deliberately updates tracked `powerbi/dashboard_data.csv`, while detailed generated tables under `output/` remain ignored.
 
-Historical purchase window: September 2016 through August 2018. Boundary months and sparse early coverage should not be treated as comparable complete growth periods. The CSV omits months/states with no eligible orders; it is not a dense calendar table.
+The service model connects anonymously to the repository's raw `master/powerbi/dashboard_data.csv`. After regenerating and committing the CSV, refresh the service model manually. A service refresh does not replace the GitHub PBIX: export a new report file separately when updating the packaged snapshot. Rebuilding the data does not recreate the service report, dashboard or permissions.
 
+## Summary table contract
 
+Grain: one observed `Purchase_month` / `Customer_state` combination, restricted to commercial-eligible orders. Month is serialized as `YYYY-MM` and imported as the first calendar day of that month. State is the destination on the order, not first-observed customer geography. No individual IDs are included. Absent month/state combinations are omitted rather than materialized as zero rows.
 
-1. Run the pipeline and open Power BI Desktop.
-2. Create a text parameter `OutputFolder` pointing to this project's `output` folder (ending in a path separator).
-3. Use `import_tables.pq` as a function called `LoadOlist`. Create one query per required table: `= LoadOlist("FactOrders")`, etc.
-4. Set the explicit data types described below; disable automatic relationship detection and create only the documented relationships.
-5. Mark `DimDate[date]` as the date table, sort month names by month number and year-month by date, and import `theme.json`.
-6. Add the measures in `dax_measures.md`, create the pages in `dashboard_specification.md`, and verify card values against `output/kpis.csv`.
-7. Recheck a single-category and single-seller selection against `categories.csv` and `sellers.csv`. Those slicers need the explicit order-ID propagation measures; do not switch all relationships to bidirectional.
+| Field | Meaning and aggregation |
+|---|---|
+| Purchase_month | Eligible order purchase month; group/filter, do not sum |
+| Customer_state | Destination state; group/filter, do not sum |
+| GMV_BRL | Sum of delivered merchandise value, excluding freight; rounded to cents per row |
+| Orders | Number of commercial-eligible orders |
+| Units | Number of item rows on those orders |
+| Eligible_deliveries | Commercial orders also meeting the delivery eligibility contract |
+| Late_deliveries | Late orders among Eligible_deliveries |
+| Reviewed_orders | Commercial orders with a valid selected review |
+| Low_reviews | Review scores 1–2 among Reviewed_orders |
+| Returning_orders | Subsequent eligible orders, sequenced across the full observation window |
 
-### Tables and relationships
+All eight numeric fields are additive. Optional AOV is `SUM(GMV_BRL) / SUM(Orders)`; late rate is `SUM(Late_deliveries) / SUM(Eligible_deliveries)`; low-review rate is `SUM(Low_reviews) / SUM(Reviewed_orders)`. A zero denominator yields blank. Never average row rates. Returning_orders is not unique repeat customers, and unique customers cannot be reconstructed from this aggregate. The experience fields are not currently visualized.
 
-![Dimensional relationship diagram](star_schema.svg)
+Snapshot: **556 rows**, September 2016–August 2018, **BRL 13,221,498.11**, **96,478 orders**, **110,197 units**. Acre (AC): **BRL 15,930.97**, **80 orders**, **91 units**. Cards were reconciled in the service; regression and packaging checks are described in [validation](../docs/validation.md). Sparse early coverage and boundary months do not establish comparable complete growth periods.
+
+## Proposed detailed model and four-page expansion
+
+The [specification](dashboard_specification.md) and `dashboard_preview/page_1.png` through `page_4.png` are static real-data designs. The [DAX measures](dax_measures.md) and loader below target a future detailed Power BI Desktop implementation and still require engine and interaction validation.
+
+1. Run quality for the six core tables; run business for scorecards, customer snapshots and SQL comparisons. Run models only if cluster/model panels are needed. See [pipeline stages](../README.md#reproduce).
+2. Open a new Power BI Desktop project. Create a text parameter `OutputFolder` pointing to `output/`, ending in a path separator.
+3. Save [import_tables.pq](import_tables.pq) as a function query called `LoadOlist`. Create `= LoadOlist("FactOrders")` and one query for each other core table.
+4. Disable automatic relationship detection and create only the relationships below. Mark `DimDate[date]` as the date table; sort month names by month number and year-month by date. Import [theme.json](theme.json) for this proposed design.
+5. Add the proposed measures and pages. Compare unfiltered cards to `output/kpis.csv`, category values to `output/categories.csv` and seller values to `output/sellers.csv`.
+6. Test category/seller propagation, date filtering, missing outcomes and distinct-order behavior. Keep relationships single-direction; do not replace explicit propagation with global bidirectional filtering.
+
+### Detailed-model relationships
+
+![Proposed dimensional relationship diagram](star_schema.svg)
 
 | Table | Grain / primary key | Relationship | Direction |
 |---|---|---|---|
-| DimCustomer | One `customer_unique_id` | 1 → * FactOrders.customer_unique_id | Dimension to orders |
-| DimDate | One `date` | 1 → * FactOrders.purchase_date | Dimension to orders |
-| FactOrders | One `order_id` | 1 → * FactOrderItems.order_id | Orders to items |
-| DimProduct | One `product_id` | 1 → * FactOrderItems.product_id | Dimension to items |
-| DimSeller | One `seller_id` | 1 → * FactOrderItems.seller_id | Dimension to items |
-| FactOrderItems | One (`order_id`, `order_item_id`) | Many-side of three relationships above | No outgoing filters |
+| DimCustomer | One customer_unique_id | 1 → * FactOrders.customer_unique_id | Dimension to orders |
+| DimDate | One date | 1 → * FactOrders.purchase_date | Dimension to orders |
+| FactOrders | One order_id | 1 → * FactOrderItems.order_id | Orders to items |
+| DimProduct | One product_id | 1 → * FactOrderItems.product_id | Dimension to items |
+| DimSeller | One seller_id | 1 → * FactOrderItems.seller_id | Dimension to items |
+| FactOrderItems | One (order_id, order_item_id) | Many-side of the three relationships above | No outgoing filters |
 
-Actual row counts and schemas are written to `output/model_inventory.csv`. This is a fact constellation with an order-header/detail relationship, resembling a star schema; it is not a single flat fact table. Avoid a second date/customer relationship into items, which would create redundant paths. FactPayments and FactReviews are audit outputs; keep them out of the initial BI model.
+Schemas and row counts are exported to `output/model_inventory.csv`. This order-header/detail fact constellation is not the flat table used by the implemented report. Avoid redundant date/customer paths into items. FactPayments and FactReviews are separate audit exports, not required in this proposed core model.
 
-```mermaid
-flowchart LR
-  C[DimCustomer<br/>customer_unique_id PK] -->|1 to many| O[FactOrders<br/>order_id PK]
-  D[DimDate<br/>date PK] -->|1 to many| O
-  O -->|1 to many| I[FactOrderItems<br/>order_id + order_item_id PK]
-  P[DimProduct<br/>product_id PK] -->|1 to many| I
-  S[DimSeller<br/>seller_id PK] -->|1 to many| I
-```
+### Detailed-model types and optional snapshots
 
-### Data types
+Keep IDs and ZIP prefixes as text; use Date for purchase_date, first_purchase_date and DimDate.date; Date/Time for timestamps; Fixed Decimal Number for money; Whole Number for counts; True/False for flags. Preserve null `is_late` and `low_review`; missing outcomes must not become false. The loader supplies these conversions for the core tables.
 
-Keep all IDs and ZIP prefixes as text. Use Date for purchase_date, first_purchase_date and DimDate.date; Date/Time for timestamp fields; Fixed Decimal Number for price/freight/payment/merchandise; Whole Number for item counts and date components. Use True/False for flags, preserving null `is_late` and `low_review`. Blank outcomes must not become false. `import_tables.pq` supplies these conversions for the main six tables.
-
-For optional RFM and cluster slicers, merge `customers.csv` and `customer_clusters.csv` into DimCustomer by unique customer ID in Power Query. Keep the unique grain. These are full-window snapshot segments; they do not recompute as-of each historical month. Label them accordingly. Import cohort and 90-day result tables as disconnected snapshots and do not connect them to the daily date slicer without a separately designed cohort model.
-
-Single-direction filtering and virtual propagation follow [Microsoft's relationship documentation](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-relationships-understand). `TREATAS` is used explicitly where item-level filters must restrict order-level experience measures.
+For optional RFM/cluster slicers, merge `customers.csv` and `customer_clusters.csv` into DimCustomer by customer_unique_id without breaking its unique grain. These are full-window snapshots, not historical as-of segments. Keep cohorts and 90-day tables disconnected unless a separate cohort model is designed. The detailed order-level population contract is in [metric_dictionary.md](../docs/metric_dictionary.md).

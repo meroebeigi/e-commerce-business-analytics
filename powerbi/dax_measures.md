@@ -1,4 +1,6 @@
-# Proposed DAX measures
+# Proposed DAX measures for the detailed model
+
+These measures target the future six-table order/item model in [the implementation guide](README.md#proposed-detailed-model-and-four-page-expansion). The delivered one-page PBIX instead uses implicit sums from a single `dashboard_data` table. It does not use the measures below. See [project status](../docs/project_status.md).
 
 Create these measures individually. The CSV flags must be Boolean and dates must be Date. These measures are supplied for Desktop validation; they have not been executed in a DAX engine here.
 

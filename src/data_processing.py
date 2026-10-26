@@ -67,7 +67,7 @@ def build_model(raw):
         bad=~r[child][fk].isin(r[parent][pk])
         coverage.append({'relationship':f'{child}.{fk} -> {parent}.{pk}',
                          'child_rows':len(r[child]),'unmatched_rows':int(bad.sum())})
-    # Required references fail loudly; report available via validate_inputs before building.
+    # Required references fail loudly after the input audit is written by quality().
     if any(x['unmatched_rows'] for x in coverage):
         raise ValueError('Foreign-key violations: '+str([x for x in coverage if x['unmatched_rows']]))
     o,c,i,p,pr,s,rv = [r[k] for k in ['orders','customers','items','payments','products','sellers','reviews']]

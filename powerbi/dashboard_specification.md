@@ -1,6 +1,8 @@
-# Four-page decision dashboard
+# Proposed four-page decision dashboard
 
-Canvas: 16:9, off-white background, navy text, blue/teal for commercial measures, orange for operational concerns. Use BRL labels, percentages to one decimal and counts with separators. Show the selected period and population on every page. Place high-level cards above trends, comparisons and a short action panel. Static previews in `dashboard_preview/` contain actual computed results; the instructions below define intended interactive behavior.
+**Status:** This is a future detailed-model design, illustrated by four static real-data previews. The delivered PBIX has one summary page and a state selector; it does not implement the pages or interactions below. See [working report](README.md) and [project status](../docs/project_status.md).
+
+Canvas: 16:9, off-white background, navy text, blue/teal for commercial measures, orange for operational concerns. Use BRL labels, percentages to one decimal and counts with separators. Show the selected period and population on every page. Place high-level cards above trends, comparisons and a short action panel. Static previews `dashboard_preview/page_1.png` through `page_4.png` contain actual computed results; the instructions below define intended interactive behavior.
 
 ## 1. Executive Overview
 

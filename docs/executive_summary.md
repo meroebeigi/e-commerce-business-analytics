@@ -3,7 +3,7 @@
 ## E-Commerce Decision Intelligence
 Growth, Customer Value, Product Performance & Operational Risk
 
-All findings below were generated from the public Olist source files after validation. Values are historical BRL, not current market forecasts or Olist accounting revenue. See `metric_dictionary.md` for populations and `output/` for evidence.
+All findings below were generated from the public Olist source files after validation. Values are historical BRL, not current market forecasts or Olist accounting revenue. See the [metric contract](../docs/metric_dictionary.md) for populations and [output setup](../output/README.md) for evidence.
 
 ### Six findings
 
@@ -29,4 +29,4 @@ All findings below were generated from the public Olist source files after valid
 
 The dataset is historical and observational. No channel spend, acquisition cost, profit margin, returns, market size or experimental interventions are observed. The last eligible month is conservatively censored in retention reporting. Delivered-only commercial results exclude unresolved and canceled orders. Seller/category experience uses order-level outcomes, including shared multi-seller orders; this cannot establish seller-level responsibility. Cluster separation, model metrics and correlations do not prove commercial benefit.
 
-Native Power BI execution is not part of the Python run. Dashboard previews are rendered from real calculated data; DAX, Power Query, relationships and a four-page specification are supplied for Power BI Desktop implementation.
+The implemented Power BI Service report has one summary page and a live-page dashboard, with GMV, orders, units, monthly GMV, state ranking and a state selector. It uses the month/state summary CSV. The separate four-page design, dimensional relationships, DAX and Power Query remain proposed Desktop implementation assets. See the [Power BI package](../powerbi/README.md) and [project status](../docs/project_status.md) for access, refresh and validation scope.
