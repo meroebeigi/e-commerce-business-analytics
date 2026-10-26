@@ -12,7 +12,7 @@ Service links require workspace access and Power BI sign-in. GitHub hosts the do
 
 ![Working Power BI report](dashboard_preview/live_report.png)
 
-The implemented page contains three commercial cards (GMV, orders, units), monthly merchandise GMV, state GMV ranking and a state dropdown. It uses a single imported `dashboard_data` table with implicit sums. The original DAX, relationship diagram, theme and four-page specification are separate design assets; they are not the implementation inside this PBIX.
+The implemented page contains three commercial cards (GMV, orders, units), monthly merchandise GMV, state GMV ranking, a state dropdown and a static business decision panel. It uses a single imported `dashboard_data` table with implicit sums. The original DAX, relationship diagram, theme and four-page specification are separate design assets; they are not the implementation inside this PBIX.
 
 ## Rebuild and refresh the summary
 

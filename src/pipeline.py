@@ -135,6 +135,16 @@ Growth, Customer Value, Product Performance & Operational Risk
 
 All findings below were generated from the public Olist source files after validation. Values are historical BRL, not current market forecasts or Olist accounting revenue. See the [metric contract](../docs/metric_dictionary.md) for populations and [output setup](../output/README.md) for evidence.
 
+### Management recommendation
+
+For this historical case, I would **diagnose high-value service exposure first, test a second-purchase journey next, and keep predictive alerts in shadow evaluation**. This ordering favors specific operational questions and measurable experiments. It is not an estimate of intervention ROI; the diagnosis must be refreshed on current data before spending decisions.
+
+1. **Protect the commercial base.** Read GMV contribution alongside eligible order volume, late rates and uncertainty. A smaller market with substantial exposure and an elevated issue rate can deserve attention before the largest market. Investigate seller/category mix and fulfillment timelines before assigning responsibility.
+2. **Earn repeat demand with a controlled test.** The observed repeat-customer rate is {k['Repeat customer rate']:.2%}; the equal-follow-up 90-day second-purchase baseline is {rate90:.2%}. I would use a randomized opt-in pilot and assess incremental conversion, GMV per eligible customer, incentive/contact costs and experience guardrails. Growth without incremental contribution would not justify scaling.
+3. **Require operational value from the model.** Holdout precision is {m['test_precision']:.2%}. I would evaluate alert burden at the team's capacity and compare a simple rule before considering automation. Better ranking than baseline is insufficient without reliable future performance and a beneficial intervention.
+
+The [business decision memo](../docs/business_case.md) explains the state comparison, the trade-offs, proposed owners and the evidence I would require to proceed. Margin, campaign cost and intervention outcomes are missing, so I make no claim of realized profit, savings or uplift.
+
 ### Six findings
 
 1. Delivered merchandise value was **BRL {k['GMV']:,.2f}**, across **{k['Orders']:,.0f} orders** and **{k['Customers']:,.0f} unique customers**; AOV was **BRL {k['AOV']:,.2f}**.

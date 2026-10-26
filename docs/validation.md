@@ -20,7 +20,7 @@ The original tests cover item/payment multiplication, same-day promise handling,
 
 ## Working Power BI report — 26 October 2026
 
-The one-page **Olist E-Commerce Performance** report was created in Power BI Service and its page pinned live to **Olist E-Commerce Dashboard**. Both saved objects were reopened. The PBIX was exported from the service and inspected as a ZIP containing a DataModel, one report page and five visual definitions.
+The one-page **Olist E-Commerce Performance** report was created in Power BI Service and its page pinned live to **Olist E-Commerce Dashboard**. Both saved objects were reopened. The PBIX was exported from the service and inspected as a ZIP containing a DataModel, one report page and six visual definitions (including the later business decision text panel).
 
 | Population | CSV / Power BI reconciliation |
 |---|---|
@@ -51,3 +51,9 @@ python scripts/validate_repository.py
 The repository checker writes [repository_validation.json](repository_validation.json): ten passing regression tests (six original model tests and four dashboard tests), local-link checks, Python/JSON/notebook structure, source hashes, summary reconciliation, PBIX layout/schema and historical confusion-matrix arithmetic. If generated model/SQL tables are present, it also checks their reconciliation records and the rebuilt summary. Missing generated tables are reported as not checked rather than assumed to pass.
 
 This consistency review does not rerun model fitting or all four notebooks, execute proposed DAX, change service permissions, or verify scheduled delivery. The model remains exploratory: precision and intervention evidence are insufficient for deployment.
+
+## Business interpretation update — 26 October 2026
+
+The README, [executive report](executive_summary.md) and its generator now lead with prioritization, trade-offs and decision gates. The [business memo](business_case.md) explains operational exposure, a controlled repeat-purchase test and withholding model automation. State comparisons and the 90-day denominator were reconciled with the existing analytical tables. The 123-order illustration is explicitly a one-percentage-point scenario, not a forecast or savings claim.
+
+A static business decision panel was added to the saved Power BI report and its live dashboard page. The updated PBIX and screenshot were exported. There are still one report page and the same commercial charts; no new DAX or predictive model was introduced. Historical numeric notebook outputs and source data were preserved.

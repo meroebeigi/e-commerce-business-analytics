@@ -113,10 +113,10 @@ def validate():
         assert 'DataModel' in names
         pages = [n for n in names if re.fullmatch(r'Report/definition/pages/[^/]+/page.json', n)]
         visuals = [n for n in names if n.endswith('/visual.json')]
-        assert len(pages) == 1 and len(visuals) == 5
+        assert len(pages) == 1 and len(visuals) == 6
         definitions = [json.loads(z.read(n)) for n in visuals]
         types = sorted(v.get('visual', {}).get('visualType', 'textbox') for v in definitions)
-        assert types == ['cardVisual', 'clusteredBarChart', 'lineChart', 'slicer', 'textbox'], types
+        assert types == ['cardVisual', 'clusteredBarChart', 'lineChart', 'slicer', 'textbox', 'textbox'], types
         assert b'dashboard_data' in b''.join(z.read(n) for n in visuals)
     checks['pbix_package'] = {'pages': len(pages), 'visuals': len(visuals), 'visual_types': types,
                               'scope': 'ZIP and report definitions; no new Desktop/DAX execution'}

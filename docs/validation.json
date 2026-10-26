@@ -36,12 +36,13 @@
   "powerbi_service_validation": {
     "reviewed_on": "2026-10-26",
     "report_pages": 1,
-    "visuals": 5,
+    "visuals": 6,
     "report_id": "2dce69d3-cc17-4a2b-8805-ce7d13ceb396",
     "dashboard_id": "9b87c2c7-445f-4fb3-a60b-412b38d58a43",
     "summary_totals_and_acre_filter_verified": true,
     "exported_pbix_inspected": true,
     "proposed_desktop_dax_validated": false,
-    "scheduled_refresh_configured": false
+    "scheduled_refresh_configured": false,
+    "business_decision_panel_added": true
   }
 }

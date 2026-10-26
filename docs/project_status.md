@@ -8,12 +8,12 @@ Status reviewed on 26 October 2026. Project name: **E-Commerce Decision Intellig
 |---|---|---|
 | Four analytical notebooks | Data quality, business/customer analytics, exploratory models and recommendations | Stored outputs from the September analysis run; execution evidence in [validation](validation.md) |
 | Python and SQLite | Order/item model, population-specific KPIs, scorecards, cohorts and temporal model evaluation | Seven source/model checks and eighteen SQL/Python comparisons; current checks listed in [validation](validation.md) |
-| [Native Power BI report](../powerbi/Olist%20E-Commerce%20Performance.pbix) | One page: GMV, orders, units, monthly GMV, state ranking and state dropdown | Created in Power BI Service; full totals and Acre selection reconciled; exported PBIX inspected |
+| [Native Power BI report](../powerbi/Olist%20E-Commerce%20Performance.pbix) | One page: GMV, orders, units, monthly GMV, state ranking, state dropdown and a static business decision panel | Created in Power BI Service; full totals and Acre selection reconciled; exported PBIX inspected |
 | Power BI dashboard | A live pin of that report page in My workspace | Saved dashboard reopened and content verified on 26 October 2026 |
 | [Four-page specification](../powerbi/dashboard_specification.md) | Proposed executive, customer, commercial and operations pages | Four static real-data design previews; these are not four implemented report pages |
 | [DAX](../powerbi/dax_measures.md), [Power Query](../powerbi/import_tables.pq), [schema](../powerbi/star_schema.svg), [theme](../powerbi/theme.json) | Supporting package for a future detailed order/item model in Power BI Desktop | Proposed Desktop implementation; separate from the working summary report |
 
-The implemented report uses one imported `dashboard_data` table, not the six-table dimensional model. Its eight numeric fields are additive counts/amounts, aggregated by purchase month and order destination state. It has no unique-customer, category, seller, retention or model-risk visuals. Delivery/review counts are available in the CSV but are not visualized. The proposed DAX measures are not used in this report.
+The implemented report uses one imported `dashboard_data` table, not the six-table dimensional model. Its eight numeric fields are additive counts/amounts, aggregated by purchase month and order destination state. It has no unique-customer, category, seller, retention or model-risk visuals. Delivery/review counts are available in the CSV but are not visualized. The proposed DAX measures are not used in this report. The business decision panel is static interpretation from the detailed analysis; the state filter updates commercial visuals, not that commentary. See the [business decision memo](business_case.md).
 
 ## Access and refresh
 

@@ -4,7 +4,7 @@
 
 How can an e-commerce marketplace grow merchandise value while improving customer value and post-purchase experience?
 
-This project turns public Olist transactions into a validated reporting model, business KPIs, customer analytics, operational priorities and an honestly evaluated prediction case. Its central principle is **Volume × Rate × Business Impact**: commercial scale and normalized issue rates must be considered together.
+I framed this project around a business allocation question: **where should a marketplace focus its next operational review or growth experiment?** I combined commercial contribution, customer behavior and fulfillment reliability to move from measurement to priorities. My guiding principle is **Volume × Rate × Business Impact**: investigate issues with meaningful exposure, test interventions, and scale only when the evidence justifies the cost.
 
 ![Working Power BI report](powerbi/dashboard_preview/live_report.png)
 
@@ -24,6 +24,21 @@ The working report has one commercial summary page. The four-page analytical des
 | Did the original notebook need correction? | Its item/payment join inflated payment value by **27.87%** |
 
 These are historical observed outcomes, not causal claims, platform accounting revenue or future forecasts. Full definitions and denominators: [metric dictionary](docs/metric_dictionary.md). Recommendations and limitations: [executive summary](docs/executive_summary.md).
+
+## Business thinking behind the analysis
+
+My recommendation is to **protect existing commercial value, test repeat demand, and withhold model automation until its operational value is demonstrated**. This is a decision proposal for the historical case, not a claim that the interventions have already worked.
+
+| Evidence | My business interpretation | Decision I would support |
+|---|---|---|
+| São Paulo contributes 38.3% of GMV with a 4.50% late rate; Rio de Janeiro contributes 13.3% with a 12.12% late rate | The largest market is not automatically the clearest service priority; scale and reliability must be assessed together | Investigate Rio's seller/category mix and fulfillment timelines while monitoring São Paulo's large exposure |
+| Only 2.28% of customers with full 90-day follow-up make a second purchase | There is a testable repeat-purchase question, but no evidence that broad discounts are profitable | Run a randomized opt-in journey; measure incremental conversion and contribution after incentive/contact costs |
+| The risk model's precision is 6.22%; most alerts are false positives | Technical ranking performance does not establish operational usefulness | Keep shadow evaluation; compare a simple rule and evaluate alerts at the team's capacity |
+| The original item/payment join inflated payment value by 27.87% | Reliable metric definitions are part of business decision quality | Reconcile the reporting grain before using figures to allocate resources |
+
+**The trade-off I would make explicit:** higher GMV can coexist with costly incentives or poor service. I would agree a budget, minimum useful uplift and service/opt-out guardrails before a pilot, then judge incremental benefit rather than gross sales alone. This dataset has no margin, acquisition cost or experiment outcomes, so it cannot establish ROI or justify an acquisition-versus-retention budget split.
+
+The [business decision memo](docs/business_case.md) develops the reasoning, proposed owners, a clearly labeled impact scenario and decision gates. The [executive report](docs/executive_summary.md) connects the recommendations to the validated findings. Operational use would first require current data.
 
 ## Start here
 
@@ -95,7 +110,7 @@ Running the pipeline creates `FactOrders`, `FactOrderItems`, `DimCustomer`, `Dim
 
 ## Power BI scope
 
-The [Power BI package](powerbi/README.md) now includes a [native interactive report](powerbi/Olist%20E-Commerce%20Performance.pbix) exported from Power BI Service, a reproducible month/state summary dataset, and links to the saved report and live-page dashboard. The implemented page shows commercial KPIs, monthly GMV, state performance and an interactive state selector. Full totals and the Acre state selection were reconciled against the CSV. The original four-page design specification and star-schema DAX remain available for future expansion; they are separate from this implemented summary report.
+The [Power BI package](powerbi/README.md) now includes a [native interactive report](powerbi/Olist%20E-Commerce%20Performance.pbix) exported from Power BI Service, a reproducible month/state summary dataset, and links to the saved report and live-page dashboard. The implemented page shows commercial KPIs, monthly GMV, state performance, an interactive state selector and a static business decision panel. Full totals and the Acre state selection were reconciled against the CSV. The original four-page design specification and star-schema DAX remain available for future expansion; they are separate from this implemented summary report.
 
 ## Public-data boundaries
 
