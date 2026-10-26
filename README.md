@@ -75,7 +75,7 @@ Running the pipeline creates `FactOrders`, `FactOrderItems`, `DimCustomer`, `Dim
 
 ## Power BI scope
 
-The [Power BI package](powerbi/README.md) contains proposed DAX, a relationship diagram, Power Query loader, theme and a detailed four-page dashboard specification with real-data previews. Generate the import-ready CSVs by running the pipeline. **It does not include a native `.pbix` file.** DAX and report interactions require validation in Power BI Desktop. Python and SQLite calculations have been executed separately.
+The [Power BI package](powerbi/README.md) now includes a [native interactive report](powerbi/Olist%20E-Commerce%20Performance.pbix) exported from Power BI Service, a reproducible month/state summary dataset, and links to the saved report and live-page dashboard. The implemented page shows commercial KPIs, monthly GMV, state performance and an interactive state selector. Full totals and the Acre state selection were reconciled against the CSV. The original four-page design specification and star-schema DAX remain available for future expansion; they are separate from this implemented summary report.
 
 ## Public-data boundaries
 
