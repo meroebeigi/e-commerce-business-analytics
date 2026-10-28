@@ -6,7 +6,9 @@ How can an e-commerce marketplace grow merchandise value while improving custome
 
 I framed this project around a business allocation question: **where should a marketplace focus its next operational review or growth experiment?** I combined commercial contribution, customer behavior and fulfillment reliability to move from measurement to priorities. My guiding principle is **Volume × Rate × Business Impact**: investigate issues with meaningful exposure, test interventions, and scale only when the evidence justifies the cost.
 
-![Working Power BI report](powerbi/dashboard_preview/live_report.png)
+[![Olist Power BI report — clean canvas export](powerbi/dashboard_preview/report_canvas.png)](https://app.powerbi.com/groups/me/reports/2dce69d3-cc17-4a2b-8805-ce7d13ceb396?experience=power-bi)
+
+Click the picture to open the interactive report. This is a clean image rendered from Power BI’s native PDF export, without browser controls. The README image is static; the linked report and live dashboard tile provide filtering. [Verified interaction checks](powerbi/interaction_checks.md).
 
 [Download the native Power BI report](powerbi/Olist%20E-Commerce%20Performance.pbix) · [Open the service dashboard](https://app.powerbi.com/groups/me/dashboards/9b87c2c7-445f-4fb3-a60b-412b38d58a43?experience=power-bi) · [Project status and artifact scope](docs/project_status.md)
 
@@ -86,7 +88,7 @@ Model fitting may take a few minutes. Random seed is 42. Local Python/SQLite ana
 notebooks/     Four executed analytical notebooks
 src/           Grain-safe model, features, KPIs, visualizations, ML and SQL verification
 sql/           Six executable SQLite analytical queries
-powerbi/       Native one-page PBIX, summary CSV, screenshot and proposed four-page design
+powerbi/       Native one-page PBIX, summary CSV, clean report export and proposed four-page design
 output/        Generated BI tables, SQLite database, audits and analytical results
 images/        Business charts and model diagnostics
 docs/          Metric contract, executive summary, source notebook review and validation

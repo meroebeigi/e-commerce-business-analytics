@@ -10,7 +10,11 @@ This project delivers a working one-page summary report and a separate proposed 
 
 Service links require workspace access and Power BI sign-in. GitHub hosts the downloadable PBIX and public-data snapshot. No public Publish to web link or scheduled refresh was configured.
 
-![Working Power BI report](dashboard_preview/live_report.png)
+[![Olist Power BI report — clean canvas export](dashboard_preview/report_canvas.png)](https://app.powerbi.com/groups/me/reports/2dce69d3-cc17-4a2b-8805-ce7d13ceb396?experience=power-bi)
+
+This clean picture was rendered at 1920 pixels from Power BI’s native PDF export on 28 October 2026, using author default values with all states selected. It shows the report canvas without browser controls. Click it to open the interactive report; GitHub displays a static image.
+
+**Interactivity verified:** the Customer_state dropdown filters all three cards, the monthly GMV chart and state ranking in both the report and its live dashboard tile. Selecting Acre (AC) returns 15.93K GMV, 80 orders and 91 units, matching the CSV’s BRL 15,930.97. Clearing the selection restores the full report. The business decision panel remains static. See [interaction checks](interaction_checks.md).
 
 The implemented page contains three commercial cards (GMV, orders, units), monthly merchandise GMV, state GMV ranking, a state dropdown and a static business decision panel. It uses a single imported `dashboard_data` table with implicit sums. The original DAX, relationship diagram, theme and four-page specification are separate design assets; they are not the implementation inside this PBIX.
 
